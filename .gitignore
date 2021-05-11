@@ -38,7 +38,8 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
+client/node_modules/
+server/node_modules/
 jspm_packages/
 
 # TypeScript v1 declaration files
@@ -69,8 +70,10 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
 .env.test
+.env.development.local
+.env.test.local
+.env.production.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -102,3 +105,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# misc
+.DS_Store
