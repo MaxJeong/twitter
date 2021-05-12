@@ -9,7 +9,7 @@ import LoadingPosts from './LoadingPosts';
 
 class ListPost extends Component {
 
-	constructor (props) {
+	constructor(props) {
 		super(props)
 
 		this.state = {
