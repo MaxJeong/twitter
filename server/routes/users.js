@@ -89,4 +89,23 @@ router.route('/').get(passport.authenticate('jwt', { session: false }), (req, re
     })
 })
 
+//Router for viewing the profile page
+router.route('/:id').get((req, res) => {
+    User.findById(req.params.id)
+        .then(user => {
+            if (user) {
+                return res.json({
+                    _id: user._id,
+                    email: user.email,
+                    username: user.username,
+                    followers: user.followers,
+                    following: user.following
+                })
+            } else {
+                return res.status(404).json({ msg: 'The user is not found.' });
+            }
+        })
+        .catch(err => console.log(err))
+})
+
 module.exports = router

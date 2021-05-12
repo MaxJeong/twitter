@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import { Link } from 'react-router-dom';
 
 const styles = {
 	paper: {
@@ -33,11 +34,12 @@ class Post extends Component {
                 <div 
                     className={classes.avatar}
                     style={{
-						backgroundColor: '#000'
+						backgroundColor: `#${post.user.id.slice(post.user.id.length - 3)}`
 					}}
                 />
                 <div>
-					<h3 className={classes.username}>{post.user.username}
+					<h3 className={classes.username}>
+						<Link to={`/profile/${post.user.id}`}>{post.user.username}</Link>
                         <span className={classes.time}>{(new Date(post.createdAt)).toLocaleString()}</span>
                     </h3>
                     {post.text}
