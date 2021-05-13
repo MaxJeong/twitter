@@ -8,7 +8,8 @@ import {
 	getPostsByUserId,
 	getUserProfile,
     followUser,
-    unfollowUser
+    unfollowUser,
+    refreshUserProfile
 } from '../../actions/profileActions';
 import Post from '../Posts/Post';
 import LoadingPosts from '../Posts/LoadingPosts';
@@ -105,7 +106,10 @@ class Profile extends Component {
         on their profile page, show the follow button
         */
         if (auth.isAuthenticated) {
-            if (user.following.indexOf(this.props.match.params.userId) === -1) {
+            if (
+                user && 
+                user.following && 
+                user.following.indexOf(this.props.match.params.userId) === -1) {
                 followBtns = (<div className={classes.btnBlock}>
                     <Button 
                         variant='outlined' 
@@ -174,5 +178,6 @@ export default connect(mapStateToProps,
         getPostsByUserId,
         getUserProfile,
         followUser,
-        unfollowUser
+        unfollowUser,
+        refreshUserProfile
     })(withStyles(styles)(Profile));
