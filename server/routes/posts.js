@@ -29,6 +29,18 @@ router.route('/').get((req, res) => {
 		.catch(err => console.log(err))
 });
 
+//Router for fetching all posts from the current user's following users
+router.route('/following').get(
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		Post.find({
+			'user.id': { $in: req.user.following }
+		})
+		.sort({ createdAt: -1 })
+		.then(posts => res.json(posts))
+		.catch(err => console.log(err))
+})
+
 //Router to get all posts from a specific user
 router.route('/:userId').get((req, res) => {
 	Post.find({ 'user.id': req.params.userId })
