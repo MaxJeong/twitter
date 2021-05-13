@@ -132,6 +132,18 @@ router.route('/unfollow').post(
     }
 )
 
+//Router for handling user search
+router.route('/search').post((req, res) => {
+    User.findOne({
+        $or: [
+            {email: req.body.text},
+            {username: req.body.text}
+        ]
+    })
+    .then(user => res.json({ userId: user._id }))
+    .catch(err => res.status(404).json({ msg: 'The user is not found.'}))
+})
+
 //Router for fetching user data for the profile page
 router.route('/:id').get((req, res) => {
     User.findById(req.params.id)

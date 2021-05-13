@@ -12,6 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 
 import { logoutUser } from '../../actions/authActions';
+import SearchForm from '../Search/SearchForm';
 
 const styles = {
     root: {
@@ -65,8 +66,8 @@ class Header extends Component {
             <div>
                 <IconButton
 					aria-owns={ open ? 'menu-appbar': undefined }
-					aria-haspopup="true"
-					color="inherit"
+					aria-haspopup='true'
+					color='inherit'
 					onClick={this.handleMenu}
 				>
 					<MoreVert />
@@ -103,8 +104,8 @@ class Header extends Component {
             <div>
                 <IconButton
 					aria-owns={ open ? 'menu-appbar': undefined }
-					aria-haspopup="true"
-					color="inherit"
+					aria-haspopup='true'
+					color='inherit'
 					onClick={this.handleMenu}
 				>
 					<AccountCircle />
@@ -142,6 +143,7 @@ class Header extends Component {
                         <Link to="/" className={classes.logo}>
                             Twitter
                         </Link>
+                        <SearchForm />
                         { isAuthenticated ? authLinks : guestLinks }
                     </Toolbar>
                 </AppBar>
