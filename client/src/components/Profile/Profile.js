@@ -6,7 +6,9 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { 
 	getPostsByUserId,
-	getUserProfile
+	getUserProfile,
+    followUser,
+    unfollowUser
 } from '../../actions/profileActions';
 import Post from '../Posts/Post';
 import LoadingPosts from '../Posts/LoadingPosts';
@@ -53,14 +55,34 @@ const styles = {
 
 class Profile extends Component {
 
-    constructor(props) {
-        super(props);
-    }
+    constructor (props) {
+		super(props);
+
+		this.handleFollow = this.handleFollow.bind(this);
+		this.handleUnfollow = this.handleUnfollow.bind(this);
+	}
 
     componentDidMount() {
         this.props.getPostsByUserId(this.props.match.params.userId);
         this.props.getUserProfile(this.props.match.params.userId);
     }
+
+    //Reload profile data when the user's following is updated
+    componentDidUpdate(prevProps) {
+		if (this.props.auth.isAuthenticated) {
+			if (prevProps.user && prevProps.user.following !== this.props.user.following) {
+				this.props.refreshUserProfile(this.props.match.params.userId);
+			}
+		}
+	}
+
+    handleFollow() {
+		this.props.followUser(this.props.match.params.userId);
+	}
+
+	handleUnfollow() {
+		this.props.unfollowUser(this.props.match.params.userId);
+	}
 
     render() {
         const { 
@@ -85,13 +107,19 @@ class Profile extends Component {
         if (auth.isAuthenticated) {
             if (user.following.indexOf(this.props.match.params.userId) === -1) {
                 followBtns = (<div className={classes.btnBlock}>
-                    <Button variant='outlined' className={classes.btnFollow}>
+                    <Button 
+                        variant='outlined' 
+                        className={classes.btnFollow}
+                        onClick={this.handleFollow}>
                         Follow
                     </Button>
                 </div>)
             } else {
                 followBtns = (<div className={classes.btnBlock}>
-                    <Button variant='outlined' className={classes.btnFollow}>
+                    <Button 
+                        variant='outlined' 
+                        className={classes.btnFollow}
+                        onClick={this.handleUnfollow}>
                         Unfollow
                     </Button>
                 </div>)
@@ -144,5 +172,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, 
     { 
         getPostsByUserId,
-        getUserProfile
+        getUserProfile,
+        followUser,
+        unfollowUser
     })(withStyles(styles)(Profile));

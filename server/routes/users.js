@@ -79,7 +79,8 @@ router.route('/login').post((req, res) => {
 })
 
 //Router for returning user data after authentication
-router.route('/').get(passport.authenticate('jwt', { session: false }), (req, res) => {
+router.route('/').get(
+    passport.authenticate('jwt', { session: false }), (req, res) => {
     res.json({
         _id: req.user._id,
         email: req.user.email,
@@ -89,7 +90,49 @@ router.route('/').get(passport.authenticate('jwt', { session: false }), (req, re
     })
 })
 
-//Router for viewing the profile page
+//Router for handling the follow feature
+router.route('/follow').post(
+    passport.authenticate('jwt', { session: false }), (req, res) => {
+        User.findOneAndUpdate({
+            _id: req.user.id 
+        }, {
+            $push: { following: req.body.userId }
+        },
+        { new: true })
+        .then(user => {
+            User.findOneAndUpdate({
+                _id: req.body.userId
+            }, {
+                $push: { followers: req.user.id }
+            }, { new: true })
+            .then(user => res.json({ userId: req.body.userId }))
+            .catch(err => console.log(err))
+        })
+        .catch(err => console.log(err))
+})
+
+//Router for handling the unfollow feature
+router.route('/unfollow').post(
+    passport.authenticate('jwt', { session: false }), (req, res) => {
+        User.findOneAndUpdate({
+            _id: req.user.id
+        }, {
+            $pull: { following: req.body.userId }
+        }, { new: true })
+        .then(user => {
+            User.findOneAndUpdate({
+                _id: req.body.userId
+            }, { 
+                $pull: { followers: req.user.id }
+            }, { new: true })
+            .then(user => res.json({ userId: req.body.userId }))
+            .catch(err => console.log(err))
+        })
+        .catch(err => console.log(err))
+    }
+)
+
+//Router for fetching user data for the profile page
 router.route('/:id').get((req, res) => {
     User.findById(req.params.id)
         .then(user => {
