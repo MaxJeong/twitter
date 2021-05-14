@@ -10,7 +10,7 @@ import {
 
 export const getUserProfile = (userId) => dispatch => {
 	dispatch(loadProfile())
-	axios.get(`http://localhost:5000/api/users/${userId}`)
+	axios.get(`/api/users/${userId}`)
 		.then(res => dispatch({
 			type: GET_PROFILE,
 			payload: res.data
@@ -19,7 +19,7 @@ export const getUserProfile = (userId) => dispatch => {
 }
 
 export const refreshUserProfile = (userId) => dispatch => {
-	axios.get(`http://localhost:5000/api/users/${userId}`)
+	axios.get(`/api/users/${userId}`)
 		.then(res => dispatch({
 			type: GET_PROFILE,
 			payload: res.data
@@ -29,7 +29,7 @@ export const refreshUserProfile = (userId) => dispatch => {
 
 export const getPostsByUserId = (userId) => dispatch => {
 	dispatch(loadPosts())
-	axios.get(`http://localhost:5000/api/posts/${userId}`)
+	axios.get(`/api/posts/${userId}`)
 		.then(res => dispatch({
 			type: GET_POSTS,
 			payload: res.data
@@ -38,7 +38,7 @@ export const getPostsByUserId = (userId) => dispatch => {
 }
 
 export const followUser = (userId) => dispatch => {
-	axios.post('http://localhost:5000/api/users/follow', { userId })
+	axios.post('/api/users/follow', { userId })
 		.then(res => dispatch({
 			type: FOLLOW,
 			payload: res.data.userId
@@ -47,7 +47,7 @@ export const followUser = (userId) => dispatch => {
 }
 
 export const unfollowUser = (userId) => dispatch => {
-	axios.post('http://localhost:5000/api/users/unfollow', { userId })
+	axios.post('/api/users/unfollow', { userId })
 		.then(res => dispatch({
 			type: UNFOLLOW,
 			payload: res.data.userId
@@ -56,7 +56,7 @@ export const unfollowUser = (userId) => dispatch => {
 }
 
 export const searchUser = (searchData, history) => dispatch => {
-	axios.post('http://localhost:5000/api/users/search', searchData)
+	axios.post('/api/users/search', searchData)
 		.then(res => {
 			history.push(`/profile/${res.data.userId}`)
 		})

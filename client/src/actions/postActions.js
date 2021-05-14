@@ -6,7 +6,7 @@ import {
 } from '../constants';
 
 export const addPost = postData => dispatch => {
-	axios.post('http://localhost:5000/api/posts/add', postData)
+	axios.post('/api/posts/add', postData)
 		.then(res => dispatch({
 			type: ADD_POST,
 			payload: res.data
@@ -20,7 +20,7 @@ wait to receive data from the server
 */
 export const getPosts = () => dispatch => {
 	dispatch(loadPosts)
-	axios.get('http://localhost:5000/api/posts')
+	axios.get('/api/posts')
 		.then(res => dispatch({
 			type: GET_POSTS,
 			payload: res.data 
@@ -29,7 +29,7 @@ export const getPosts = () => dispatch => {
 }
 
 export const getPostsByFollowingUsers = () => dispatch => {
-	axios.get('http://localhost:5000/api/posts/following')
+	axios.get('/api/posts/following')
 		.then(res => dispatch({
 			type: GET_POSTS,
 			payload: res.data

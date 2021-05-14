@@ -9,7 +9,7 @@ After setting the header, use getCurrentUser action to
 get user data from the server
 */
 export const loginUser = (userData) => dispatch => {
-	axios.post('http://localhost:5000/api/users/login', userData)
+	axios.post('/api/users/login', userData)
 		.then(res => {
 			const { token } = res.data 
 			localStorage.setItem('jwtToken', token)
@@ -29,7 +29,7 @@ Send the userData to the server and dispatch any
 errors to the error reducer
 */
 export const registerUser = (userData, history) => dispatch => {
-    axios.post('http://localhost:5000/api/users/register', userData)
+    axios.post('/api/users/register', userData)
         .then(res => history.push('/login'))
         .catch(err => dispatch({
             type: GET_ERRORS,
@@ -42,7 +42,7 @@ After a user logs in, dispatch its data to the auth
 reducer to save the data there
 */
 export const getCurrentUser = () => dispatch => {
-	axios.get('http://localhost:5000/api/users')
+	axios.get('/api/users')
 		.then(res => dispatch(setCurrentUser(res.data)))
 }
 

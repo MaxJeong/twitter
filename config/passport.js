@@ -8,7 +8,7 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.SECRET;
 
 module.exports = (passport) => {
-	passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
+	passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
 		User.findById(jwt_payload.id)
 			.then(user => {
 				if (user) {
